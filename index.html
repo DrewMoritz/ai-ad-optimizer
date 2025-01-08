@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Ad Creator & Optimizer</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQ2+W+gGxAxV5zOLOIN7eu/OpbyMAUAlFnLZpmxjfM2A7j6Bp9M9PaX8x" crossorigin="anonymous">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f9;
+    }
+    h1 {
+      text-align: center;
+      margin-top: 20px;
+    }
+    #ad-container {
+      width: 100%;
+      max-width: 300px;
+      height: 250px;
+      border: 1px solid #ccc;
+      margin: 20px auto;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      background-color: #fff;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    button {
+      margin: 10px auto;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>AI Ad Creator & Optimizer</h1>
+    <div id="ad-container" class="rounded shadow-sm">
+      <p id="ad-text">Your perfect ad text goes here!</p>
+    </div>
+    <div class="text-center">
+      <button id="generate-ad" class="btn btn-primary">Generate Ad</button>
+      <button id="analyze-optimize" class="btn btn-success">Analyze & Optimize</button>
+    </div>
+  </div>
+
+  <script>
+    const adContainer = document.getElementById('ad-container');
+    const adText = document.getElementById('ad-text');
+
+    const adVariants = [
+      'Limited Offer! Shop Now!',
+      '50% Off on All Products!',
+      'Buy One Get One Free! Hurry!',
+      'Exclusive Deals Just for You!',
+      'Time is Running Out! Shop Today!'
+    ];
+
+    let clickData = {};
+
+    // Generate a random ad
+    document.getElementById('generate-ad').addEventListener('click', () => {
+      const randomIndex = Math.floor(Math.random() * adVariants.length);
+      const adContent = adVariants[randomIndex];
+      adText.textContent = adContent;
+      adContainer.style.backgroundColor = randomColor();
+
+      if (!clickData[adContent]) {
+        clickData[adContent] = 0;
+      }
+    });
+
+    // Simulate ad clicks
+    adContainer.addEventListener('click', () => {
+      const currentAd = adText.textContent;
+      clickData[currentAd] = (clickData[currentAd] || 0) + 1;
+      alert(`Ad clicked: ${currentAd}`);
+    });
+
+    // Analyze and optimize ads based on click data
+    document.getElementById('analyze-optimize').addEventListener('click', () => {
+      let bestAd = Object.keys(clickData).reduce((a, b) => (clickData[a] > clickData[b] ? a : b), '');
+      if (bestAd) {
+        adText.textContent = bestAd;
+        alert(`Optimized Ad: ${bestAd} with ${clickData[bestAd]} clicks`);
+      } else {
+        alert('No click data available yet. Generate and click ads to gather data.');
+      }
+    });
+
+    // Generate random background color
+    function randomColor() {
+      return `hsl(${Math.floor(Math.random() * 360)}, 70%, 80%)`;
+    }
+  </script>
+</body>
+</html>
